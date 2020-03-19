@@ -1,1 +1,1 @@
-ffmpeg_path=''
+# path for ffmpeg executable file# None by default#ffmpeg_path = 'path\\to\\ffmpeg.exe' # for windows usersffmpeg_path = None

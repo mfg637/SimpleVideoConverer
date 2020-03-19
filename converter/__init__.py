@@ -41,5 +41,6 @@ def convert(vcodec:str, sources_list:list, mode:int, crf:int, bitrate:int, prese
                     commandline+=['/dev/null']
             else:
                 commandline+=['-acodec', 'copy', os.path.splitext(source)[0]+'_out.mkv']
+            print(commandline)
             subprocess.run(commandline)
             callback()
