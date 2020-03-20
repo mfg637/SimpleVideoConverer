@@ -32,7 +32,7 @@ class MainWindow:
 
         self._vcodec_label = tkinter.Label(self._root, text="Video codec:")
         self._vcodec_label.grid(row=5, column=0, sticky="w")
-        self._vcodec_field = tkinter.ttk.Combobox(self._root, values=['libx264', 'libx265'])
+        self._vcodec_field = tkinter.ttk.Combobox(self._root, values=['libx264', 'libx265', 'libvpx-vp9'])
         self._vcodec_field.current(0)
         self._vcodec_field.grid(row=5, column=1, sticky="w")
 

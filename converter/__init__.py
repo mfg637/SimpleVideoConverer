@@ -3,6 +3,19 @@ import os
 import config
 from platform import system
 
+vp9_presets = {
+    'ultrafast': ['-quality', 'realtime', '-speed', '8', '-tile-columns', '2', '-threads', '8'],
+    'superfast': ['-quality', 'realtime', '-speed', '8', '-tile-columns', '2', '-threads', '8'],
+    'veryfast': ['-quality', 'realtime', '-speed', '7', '-tile-columns', '2', '-threads', '8'],
+    'faster': ['-quality', 'realtime', '-speed', '6', '-tile-columns', '2', '-threads', '8'],
+    'fast': ['-quality', 'realtime', '-speed', '5', '-tile-columns', '2', '-threads', '8'],
+    'medium': ['-quality', 'good', '-speed', '4', '-tile-columns', '2', '-threads', '8'],
+    'slow': ['-quality', 'good', '-speed', '2', '-tile-columns', '2', '-threads', '8'],
+    'slower': ['-quality', 'good', '-speed', '1', '-tile-columns', '2', '-threads', '8'],
+    'veryslow': ['-quality', 'best', '-speed', '1', '-tile-columns', '2', '-threads', '8'],
+    'placebo': ['-quality', 'best', '-speed', '0', '-tile-columns', '0', '-threads', '1']
+}
+
 def convert(vcodec:str, sources_list:list, mode:int, crf:int, bitrate:int, preset:str, callback):
     if mode==0:
         callback(len(sources_list))
@@ -25,22 +38,28 @@ def convert(vcodec:str, sources_list:list, mode:int, crf:int, bitrate:int, prese
                 commandline += ['-vcodec', vcodec, '-preset', preset, '-profile:v', 'high', '-level', '4.1']
             elif vcodec == 'libx265':
                 commandline += ['-vcodec', vcodec, '-preset', preset, '-profile:v', 'main']
+            elif vcodec == 'libvpx-vp9':
+                commandline += ['-vcodec', vcodec]
+                commandline += vp9_presets[preset]
             if mode==0:
                 commandline += ['-b:v', '0','-crf', str(crf)]
             elif mode==1:
                 commandline += ['-b:v', str(bitrate)+'k']
-                if vcodec == 'libx264':
+                if vcodec == 'libx264' or vcodec == 'libvpx-vp9':
                     commandline += ['-pass', str(p+1)]
                 elif vcodec == 'libx265':
                     commandline += ['-x265-params', 'pass={}'.format(p+1)]
             if (mode == 1 and p == 0):
-                commandline += ['-f', 'null']
-                if system()=='Windows':
-                    commandline+=['NUL']
+                if vcodec == 'libvpx-vp9':
+                    commandline += [os.path.splitext(source)[0]+'_out.mkv']
                 else:
-                    commandline+=['/dev/null']
+                    commandline += ['-f', 'null']
+                    if system()=='Windows':
+                        commandline+=['NUL']
+                    else:
+                        commandline+=['/dev/null']
             else:
-                commandline+=['-acodec', 'copy', os.path.splitext(source)[0]+'_out.mkv']
+                commandline+=['-acodec', 'copy', '-y', os.path.splitext(source)[0]+'_out.mkv']
             print(commandline)
             subprocess.run(commandline)
             callback()
