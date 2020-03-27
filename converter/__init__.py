@@ -4,15 +4,15 @@ import config
 from platform import system
 
 vp9_presets = {
-    'ultrafast': ['-quality', 'realtime', '-speed', '8', '-tile-columns', '2', '-threads', '8'],
-    'superfast': ['-quality', 'realtime', '-speed', '8', '-tile-columns', '2', '-threads', '8'],
-    'veryfast': ['-quality', 'realtime', '-speed', '7', '-tile-columns', '2', '-threads', '8'],
-    'faster': ['-quality', 'realtime', '-speed', '6', '-tile-columns', '2', '-threads', '8'],
-    'fast': ['-quality', 'realtime', '-speed', '5', '-tile-columns', '2', '-threads', '8'],
-    'medium': ['-quality', 'good', '-speed', '4', '-tile-columns', '2', '-threads', '8'],
-    'slow': ['-quality', 'good', '-speed', '2', '-tile-columns', '2', '-threads', '8'],
-    'slower': ['-quality', 'good', '-speed', '1', '-tile-columns', '2', '-threads', '8'],
-    'veryslow': ['-quality', 'best', '-speed', '1', '-tile-columns', '2', '-threads', '8'],
+    'ultrafast': ['-quality', 'realtime', '-speed', '8', '-tile-columns', '2', '-row-mt', '1'],
+    'superfast': ['-quality', 'realtime', '-speed', '8', '-tile-columns', '2', '-row-mt', '1'],
+    'veryfast': ['-quality', 'realtime', '-speed', '7', '-tile-columns', '2', '-row-mt', '1'],
+    'faster': ['-quality', 'realtime', '-speed', '6', '-tile-columns', '2', '-row-mt', '1'],
+    'fast': ['-quality', 'realtime', '-speed', '5', '-tile-columns', '2', '-row-mt', '1'],
+    'medium': ['-quality', 'good', '-speed', '4', '-tile-columns', '2', '-row-mt', '1'],
+    'slow': ['-quality', 'good', '-speed', '2', '-tile-columns', '2', '-row-mt', '1'],
+    'slower': ['-quality', 'good', '-speed', '1', '-tile-columns', '2', '-row-mt', '1'],
+    'veryslow': ['-quality', 'best', '-speed', '1', '-tile-columns', '2', '-row-mt', '1'],
     'placebo': ['-quality', 'best', '-speed', '0', '-tile-columns', '0', '-threads', '1']
 }
 
