@@ -12,8 +12,8 @@ vp9_presets = {
     'medium': ['-quality', 'good', '-speed', '4', '-tile-columns', '2', '-row-mt', '1'],
     'slow': ['-quality', 'good', '-speed', '2', '-tile-columns', '2', '-row-mt', '1'],
     'slower': ['-quality', 'good', '-speed', '1', '-tile-columns', '2', '-row-mt', '1'],
-    'veryslow': ['-quality', 'best', '-speed', '1', '-tile-columns', '2', '-row-mt', '1'],
-    'placebo': ['-quality', 'best', '-speed', '0', '-tile-columns', '0', '-threads', '1']
+    'veryslow': ['-quality', 'good', '-speed', '0', '-tile-columns', '2', '-row-mt', '1'],
+    'placebo': ['-quality', 'best', '-speed', '0', '-tile-columns', '2', '-row-mt', '1']
 }
 
 def convert(vcodec:str, sources_list:list, mode:int, crf:int, bitrate:int, preset:str, callback):
@@ -34,6 +34,7 @@ def convert(vcodec:str, sources_list:list, mode:int, crf:int, bitrate:int, prese
                 commandline += ['-map', '0:v:0', '-map', '0:a:0']
             else:
                 commandline += ['-map', '0:v:0']
+
             if vcodec == 'libx264':
                 commandline += ['-vcodec', vcodec, '-preset', preset, '-profile:v', 'high', '-level', '4.1']
             elif vcodec == 'libx265':
@@ -41,6 +42,7 @@ def convert(vcodec:str, sources_list:list, mode:int, crf:int, bitrate:int, prese
             elif vcodec == 'libvpx-vp9':
                 commandline += ['-vcodec', vcodec]
                 commandline += vp9_presets[preset]
+
             if mode==0:
                 commandline += ['-b:v', '0','-crf', str(crf)]
             elif mode==1:
