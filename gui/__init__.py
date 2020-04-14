@@ -4,6 +4,7 @@ import tkinter.filedialog
 import converter
 import threading
 
+SIZE = (404, 370)
 
 class MainWindow:
     def __init__(self, sources_list=None):
@@ -57,6 +58,8 @@ class MainWindow:
         self._convert_btn.grid(row=7, column=0, columnspan=3)
         self._progress=tkinter.ttk.Progressbar(self._root, length=400)
         self._progress.grid(row=8, column=0, columnspan=3)
+        self._root.maxsize(*SIZE)
+        self._root.minsize(*SIZE)
         self._root.mainloop()
 
     def _add_files(self, sources_list=None):
