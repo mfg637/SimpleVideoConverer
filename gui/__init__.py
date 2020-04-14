@@ -2,6 +2,7 @@ import tkinter
 import tkinter.ttk
 import tkinter.filedialog
 import converter
+import threading
 
 
 class MainWindow:
@@ -16,7 +17,7 @@ class MainWindow:
 
         self._mode_selector_header = tkinter.Label(self._root, text="Select convert mode:")
         self._mode_selector_header.grid(row=2, column=0, sticky="w", columnspan=2)
-        self._mode = tkinter.IntVar(self._root, 0)
+        self._mode = tkinter.IntVar(self._root, 1)
         self._CRF_radio_btn = tkinter.Radiobutton(self._root, text="CRF:", variable=self._mode, value=0)
         self._CRF_radio_btn.grid(row=3,column=0, sticky="w")
         self._CRF_value_field = tkinter.Entry(self._root)
@@ -84,13 +85,19 @@ class MainWindow:
             self._progress['maximum']=n
 
     def _start_convert(self):
-        converter.convert(
+        self._convert_btn['state'] = tkinter.DISABLED
+        thread = threading.Thread(target=converter.convert, args=(
             self._vcodec_field.get(),
             self._list.get(0, tkinter.END),
             self._mode.get(),
             int(self._CRF_value_field.get()),
             int(self._2pass_bitrate.get()),
             self._preset_field.get(),
-            self._callback
-        )
+            self._callback,
+            self._convert_done_callback
+        ))
+        thread.start()
         self._list.delete(0, tkinter.END)
+
+    def _convert_done_callback(self):
+        self._convert_btn['state'] = tkinter.NORMAL

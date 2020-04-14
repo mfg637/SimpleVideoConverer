@@ -16,7 +16,7 @@ vp9_presets = {
     'placebo': ['-quality', 'best', '-speed', '0', '-tile-columns', '2', '-row-mt', '1']
 }
 
-def convert(vcodec:str, sources_list:list, mode:int, crf:int, bitrate:int, preset:str, callback):
+def convert(vcodec:str, sources_list:list, mode:int, crf:int, bitrate:int, preset:str, callback, convert_done_callback):
     if mode==0:
         callback(len(sources_list))
     elif mode==1:
@@ -65,3 +65,4 @@ def convert(vcodec:str, sources_list:list, mode:int, crf:int, bitrate:int, prese
             print(commandline)
             subprocess.run(commandline)
             callback()
+    convert_done_callback()
